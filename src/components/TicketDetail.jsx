@@ -11,6 +11,11 @@ import assetReturnIcon from "../assets/资产退库.svg";
 import assetRepairIcon from "../assets/资产维修.svg";
 import newTicketIcon from "../assets/新建工单.svg";
 
+import diagnosticImg from "../assets/Diagnostic.png";
+import questionImg from "../assets/Question.png";
+import userinfoImg from "../assets/Userinfo.png";
+import siteinfoImg from "../assets/Siteinfo.png";
+
 const IExpand = () => (
   <img src={iconExpandOutlined} alt="expand icon" style={{ width: 14, height: 14 }} />
 );
@@ -379,7 +384,7 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
             {activeCopilotTab === '诊断' ? (
               <div style={{display: "flex", justifyContent: "center"}}>
                 <img 
-                  src="/src/assets/Diagnostic.png" 
+                  src={diagnosticImg} 
                   alt="诊断占位" 
                   style={{width: 800, margin: "24px auto"}}
                 />
@@ -387,7 +392,7 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
             ) : activeCopilotTab === '问答' ? (
               <div style={{display: "flex", justifyContent: "center"}}>
                 <img 
-                  src="/src/assets/Question.png" 
+                  src={questionImg} 
                   alt="问答占位" 
                   style={{width: 800, margin: "24px auto"}}
                 />
@@ -395,7 +400,7 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
             ) : activeCopilotTab === '用户信息' ? (
               <div style={{display: "flex", justifyContent: "center"}}>
                 <img 
-                  src="/src/assets/Userinfo.png" 
+                  src={userinfoImg} 
                   alt="用户信息占位" 
                   style={{width: 800, margin: "24px auto"}}
                 />
@@ -403,7 +408,7 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
             ) : activeCopilotTab === '职场信息' ? (
               <div style={{display: "flex", justifyContent: "center"}}>
                 <img 
-                  src="/src/assets/Siteinfo.png" 
+                  src={siteinfoImg} 
                   alt="职场信息占位" 
                   style={{width: 800, margin: "24px auto"}}
                 />
