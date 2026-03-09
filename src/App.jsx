@@ -218,7 +218,7 @@ const LeftSidebar = ({ onPageChange, activeNavTab, onNavTabChange }) => {
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{width: 16, height: 16, color: activeNavTab === 'tab0' ? "#194AD0" : "#626770"}}>
             <path d="M6.33325 14.6665C6.70144 14.6665 6.99992 14.368 6.99992 13.9999V11.3332C6.99992 10.965 7.2984 10.6665 7.66658 10.6665H8.33325C8.70144 10.6665 8.99992 10.965 8.99992 11.3332V13.9999C8.99992 14.368 9.29839 14.6665 9.66658 14.6665H13.3333C14.0696 14.6665 14.6666 14.0696 14.6666 13.3332V6.6665C14.6666 6.26146 14.4825 5.87838 14.1662 5.62535L8.83284 1.6662C8.34589 1.27663 7.65395 1.27663 7.16699 1.6662L1.83366 5.62535C1.51737 5.87838 1.33325 6.26146 1.33325 6.6665V13.3332C1.33325 14.0696 1.93021 14.6665 2.66659 14.6665H6.33325Z" fill="currentColor"/>
           </svg>
-          <span className="m12" style={{textAlign:"center",color: activeNavTab === 'tab0' ? "#194AD0" : "#626770", fontWeight: activeNavTab === 'tab0' ? "500" : "400"}}>Demo1</span>
+          <span className="m12" style={{textAlign:"center",color: activeNavTab === 'tab0' ? "#194AD0" : "#626770", fontWeight: activeNavTab === 'tab0' ? "500" : "400"}}>TS</span>
         </button>
         <button 
           style={{display:"flex",flexDirection:"column",alignItems:"center",gap:4,
@@ -233,7 +233,7 @@ const LeftSidebar = ({ onPageChange, activeNavTab, onNavTabChange }) => {
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{width: 16, height: 16, color: activeNavTab === 'tab1' ? "#194AD0" : "#626770"}}>
             <path d="M6.33325 14.6665C6.70144 14.6665 6.99992 14.368 6.99992 13.9999V11.3332C6.99992 10.965 7.2984 10.6665 7.66658 10.6665H8.33325C8.70144 10.6665 8.99992 10.965 8.99992 11.3332V13.9999C8.99992 14.368 9.29839 14.6665 9.66658 14.6665H13.3333C14.0696 14.6665 14.6666 14.0696 14.6666 13.3332V6.6665C14.6666 6.26146 14.4825 5.87838 14.1662 5.62535L8.83284 1.6662C8.34589 1.27663 7.65395 1.27663 7.16699 1.6662L1.83366 5.62535C1.51737 5.87838 1.33325 6.26146 1.33325 6.6665V13.3332C1.33325 14.0696 1.93021 14.6665 2.66659 14.6665H6.33325Z" fill="currentColor"/>
           </svg>
-          <span className="m12" style={{textAlign:"center",color: activeNavTab === 'tab1' ? "#194AD0" : "#626770", fontWeight: activeNavTab === 'tab1' ? "500" : "400"}}>Demo2</span>
+          <span className="m12" style={{textAlign:"center",color: activeNavTab === 'tab1' ? "#194AD0" : "#626770", fontWeight: activeNavTab === 'tab1' ? "500" : "400"}}>TS多渠道</span>
         </button>
         <button 
           style={{
@@ -266,7 +266,7 @@ const LeftSidebar = ({ onPageChange, activeNavTab, onNavTabChange }) => {
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{width: 16, height: 16, color: activeNavTab === 'tab2' ? "#194AD0" : "#626770"}}>
             <path d="M6.33325 14.6665C6.70144 14.6665 6.99992 14.368 6.99992 13.9999V11.3332C6.99992 10.965 7.2984 10.6665 7.66658 10.6665H8.33325C8.70144 10.6665 8.99992 10.965 8.99992 11.3332V13.9999C8.99992 14.368 9.29839 14.6665 9.66658 14.6665H13.3333C14.0696 14.6665 14.6666 14.0696 14.6666 13.3332V6.6665C14.6666 6.26146 14.4825 5.87838 14.1662 5.62535L8.83284 1.6662C8.34589 1.27663 7.65395 1.27663 7.16699 1.6662L1.83366 5.62535C1.51737 5.87838 1.33325 6.26146 1.33325 6.6665V13.3332C1.33325 14.0696 1.93021 14.6665 2.66659 14.6665H6.33325Z" fill="currentColor"/>
           </svg>
-          <span className="m12" style={{textAlign:"center",color: activeNavTab === 'tab2' ? "#194AD0" : "#626770", fontWeight: activeNavTab === 'tab2' ? "500" : "400"}}>Demo3</span>
+          <span className="m12" style={{textAlign:"center",color: activeNavTab === 'tab2' ? "#194AD0" : "#626770", fontWeight: activeNavTab === 'tab2' ? "500" : "400"}}>OSC</span>
         </button>
       </nav>
     </aside>

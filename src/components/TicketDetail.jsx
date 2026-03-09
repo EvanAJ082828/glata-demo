@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { oncallData } from "../mockData";
 
 import iconExpandOutlined from "../assets/icon_expand_outlined.svg";
 import iconCopyOutlined from "../assets/icon_copy_outlined.svg";
@@ -54,8 +53,8 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
   const [copilotWidth, setCopilotWidth] = useState(480);
   const [isDragging, setIsDragging] = useState(false);
   const minWidth = 480;
-  const [activeCopilotTab, setActiveCopilotTab] = useState('诊断');
-  const [activeRightTab, setActiveRightTab] = useState('诊断');
+  const [activeCopilotTab, setActiveCopilotTab] = useState((ticket?.src === "话题群" || ticket?.src === "邮件") || (role === 'tab2' && ticket?.id?.startsWith('IT-')) ? '诊断' : '工单处理');
+  const [activeRightTab, setActiveRightTab] = useState((ticket?.src === "话题群" || ticket?.src === "邮件") || (role === 'tab2' && ticket?.id?.startsWith('IT-')) ? '诊断' : '工单处理');
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -90,6 +89,14 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
       };
     }
   }, [isDragging, handleMouseMove, handleMouseUp]);
+
+  useEffect(() => {
+    if (ticket) {
+      const newTabName = (ticket?.src === "话题群" || ticket?.src === "邮件") || (role === 'tab2' && ticket?.id?.startsWith('IT-')) ? '诊断' : '工单处理';
+      setActiveCopilotTab(newTabName);
+      setActiveRightTab(newTabName);
+    }
+  }, [ticket, role]);
 
   if(!ticket) return (
     <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:16}}>
@@ -222,10 +229,17 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
   );
 
   const getUserData = () => {
-    if (role === 'tab2' && ticket.id.startsWith('IT-')) {
-      return oncallData.find(user => 
-        user.tickets.some(t => t.id === ticket.id)
-      );
+    if (role === 'tab2' && ticket?.id && ticket.id.startsWith('IT-')) {
+      // 使用映射表直接查找用户名
+      const userMap = {
+        'IT-921501851': '赵吾光',
+        'IT-921501852': '钱若霖',
+        'IT-921501853': '孙一明',
+        'IT-921501854': '李明华',
+        'IT-921501855': '孙明',
+        'IT-921501856': '周大福'
+      };
+      return { name: userMap[ticket.id] || 'Unknown' };
     }
     return selUser;
   };
@@ -257,7 +271,7 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
         <div style={{display:"flex",flexDirection:"column",gap:6,minWidth:0,flex:1,marginRight:16}}>
           <div style={{display:"inline-flex",alignItems:"center",gap:12}}>
             <h1 className="m16 ct1" style={{margin:0}}>
-              {ticket.title}
+              {role === 'tab2' && ticket.id && ticket.id.startsWith('IT-') && ticket.src !== "话题群" && ticket.src !== "邮件" ? `From IT Oncall：${userData?.name || 'Unknown'}` : ticket.title}
             </h1>
             <Badge label={ticket.status} bg={ticket.sBg} clr={ticket.sClr}/>
           </div>
@@ -306,7 +320,7 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
             height: 48
           }}>
             {[
-              {k: '诊断', icon: 'diagnosis'},
+              {k: (ticket?.src === "话题群" || ticket?.src === "邮件") || (role === 'tab2' && ticket?.id?.startsWith('IT-')) ? '诊断' : '工单处理', icon: 'diagnosis'},
               {k: '问答', icon: 'qa'},
               {k: '用户信息', icon: 'userInfo', tag: '近期有差评'},
               {k: '职场信息', icon: 'workplace'}
@@ -383,7 +397,7 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
           </div>
           
           <div style={{flex:1,overflowY:"auto",padding:"0 24px"}}>
-            {activeCopilotTab === '诊断' ? (
+            {(activeCopilotTab === '工单处理' || activeCopilotTab === '诊断') ? (
               <div style={{display: "flex", justifyContent: "center"}}>
                 <img 
                   src={diagnosticImg} 
@@ -487,7 +501,7 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
               height: 48
             }}>
               {[
-                {k: '诊断', icon: 'diagnosis'},
+                {k: (ticket?.src === "话题群" || ticket?.src === "邮件") || (role === 'tab2' && ticket?.id?.startsWith('IT-')) ? '诊断' : '工单处理', icon: 'diagnosis'},
                 {k: '问答', icon: 'qa'},
                 {k: '用户信息', icon: 'userInfo', tag: '近期有差评'},
                 {k: '职场信息', icon: 'workplace'}

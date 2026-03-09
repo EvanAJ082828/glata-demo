@@ -141,7 +141,7 @@ const TkCard = ({tk,isActive,onClick,channel}) => (
             <path d="M7 4.2v2.9l2 1.2" stroke="var(--t3)" strokeWidth="1.1" strokeLinecap="round"/>
           </svg>
         )}
-        <span className="r12 ct2">{tk.sub}</span>
+        <span className="r12 ct2">工单最新处理进度 (示意)</span>
       </div>
       <time className="r12 ct3" style={{flexShrink:0,marginLeft:8}}>{tk.time}</time>
     </div>

@@ -29,21 +29,21 @@ import avatar27 from "./assets/头像27.png";
 export const SVC = [
   { id:1, name:"Eric", av:"E", time:"15:32", tags:["个人设备申请x1","设备报修x1"], tickets:[
     { id:"APL20260225000298", status:"处理中", sBg:"rgba(22,93,255,.12)", sClr:"#1033a3", title:"【个人设备申请】1080P 显示器", sub:"确认领用地点", time:"15:32", src:"ITAM系统", asset:"IT1962244", timer:true },
-    { id:"IT1962244-REP",     status:"待接单", sBg:"rgba(255,125,0,.12)", sClr:"#a8510a", title:'【设备报修】IT1962244-苹果 MacBook Air 13" M4 MAC笔记本 10+10核/16G/512G/...', sub:"占位信息占位信息", time:"15:32", src:"ITAM系统", asset:"", timer:false },
+    { id:"IT1962244-REP",     status:"处理中", sBg:"rgba(22,93,255,.12)", sClr:"#1033a3", title:'【设备报修】IT1962244-苹果 MacBook Air 13" M4 MAC笔记本 10+10核/16G/512G/...', sub:"占位信息占位信息", time:"15:32", src:"ITAM系统", asset:"", timer:false },
   ]},
   { id:2, name:"Lisa", av:"L", time:"15:32", tags:["设备退还x1","配件退还x1"], tickets:[
-    { id:"TK20240501001", status:"待接单", sBg:"rgba(255,125,0,.12)", sClr:"#a8510a", title:"【设备退还】IT1883921-联想 ThinkPad T14 笔记本电脑",   sub:"待核对设备外观及序列号", time:"15:32", src:"ITAM系统", asset:"IT1883921", timer:false },
+    { id:"TK20240501001", status:"处理中", sBg:"rgba(22,93,255,.12)", sClr:"#1033a3", title:"【设备退还】IT1883921-联想 ThinkPad T14 笔记本电脑",   sub:"待核对设备外观及序列号", time:"15:32", src:"ITAM系统", asset:"IT1883921", timer:false },
     { id:"TK20240501002", status:"处理中", sBg:"rgba(22,93,255,.12)",  sClr:"#1033a3", title:"【配件退还】罗技 MX Master 3 无线鼠标",               sub:"确认归还配件完整性",     time:"15:01", src:"ITAM系统", asset:"",          timer:true  },
   ]},
   { id:3, name:"冯云",   av:"冯", time:"15:32", tags:["配件退还x1"], tickets:[
-    { id:"TK20240501003", status:"待接单", sBg:"rgba(255,125,0,.12)", sClr:"#a8510a", title:"【配件退还】绿联 Type-C 十合一扩展坞", sub:"离职人员资产交接流程", time:"14:45", src:"ITAM系统", asset:"", timer:false },
+    { id:"TK20240501003", status:"处理中", sBg:"rgba(22,93,255,.12)", sClr:"#1033a3", title:"【配件退还】绿联 Type-C 十合一扩展坞", sub:"离职人员资产交接流程", time:"14:45", src:"ITAM系统", asset:"", timer:false },
   ]},
   { id:4, name:"周俊",   av:"周", time:"15:32", tags:["暂无待办工单"], tickets:[] },
   { id:5, name:"钱若霖", av:"钱", time:"15:32", tags:["设备退库x1"], tickets:[
     { id:"TK20240501004", status:"处理中", sBg:"rgba(22,93,255,.12)", sClr:"#1033a3", title:"【设备退库】IT1772099-戴尔 U2723QE 27寸 4K显示器", sub:"资产库管扫码入库中",   time:"11:20", src:"ITAM系统", asset:"IT1772099", timer:true  },
   ]},
   { id:6, name:"周琎",   av:"周", time:"15:32", tags:["设备报修x1"], tickets:[
-    { id:"TK20240501005", status:"待接单", sBg:"rgba(255,125,0,.12)", sClr:"#a8510a", title:"【设备报修】IT1920012-苹果 Mac mini M2 8核/16G/512G", sub:"用户反馈频繁重启，系统报错", time:"09:15", src:"ITAM系统", asset:"IT1920012", timer:false },
+    { id:"TK20240501005", status:"处理中", sBg:"rgba(22,93,255,.12)", sClr:"#1033a3", title:"【设备报修】IT1920012-苹果 Mac mini M2 8核/16G/512G", sub:"用户反馈频繁重启，系统报错", time:"09:15", src:"ITAM系统", asset:"IT1920012", timer:false },
   ]},
   { id:7, name:"李琳颖", av:"李", time:"15:32", tags:["Service Requestx1"], tickets:[
     { id:"TK20240501006", status:"处理中", sBg:"rgba(22,93,255,.12)", sClr:"#1033a3", title:"【Service Request】申请 Figma 企业版编辑权限", sub:"等待成本中心负责人审批", time:"昨天 16:30", src:"ServiceDesk", asset:"", timer:true },
@@ -119,10 +119,10 @@ export const oncallData = [
       {
         id: "IT-921501851",
         title: "盈都网络今天特别不好，打开个飞书文档十几秒了还在加载",
-        status: "待处理",
-        sBg: "rgba(255,125,0,.12)",
-        sClr: "#a8510a",
-        sub: "行政部门",
+        status: "处理中",
+        sBg: "rgba(22,93,255,.12)",
+        sClr: "#1033a3",
+        sub: "工单最新处理进度 (示意)",
         time: "16:00"
       }
     ]
@@ -147,7 +147,7 @@ export const oncallData = [
         status: "处理中",
         sBg: "rgba(22,93,255,.12)",
         sClr: "#1033a3",
-        sub: "技术支持部",
+        sub: "工单最新处理进度 (示意)",
         time: "15:55"
       }
     ]
@@ -167,7 +167,7 @@ export const oncallData = [
         status: "处理中",
         sBg: "rgba(22,93,255,.12)",
         sClr: "#1033a3",
-        sub: "机房A区",
+        sub: "工单最新处理进度 (示意)",
         time: "15:50"
       }
     ]
@@ -184,10 +184,10 @@ export const oncallData = [
       {
         id: "IT-921501853",
         title: "需要开通工区所在楼宇审批权限",
-        status: "已解决",
-        sBg: "rgba(0,194,146,.12)",
-        sClr: "#007d58",
-        sub: "财务部门",
+        status: "处理中",
+        sBg: "rgba(22,93,255,.12)",
+        sClr: "#1033a3",
+        sub: "工单最新处理进度 (示意)",
         time: "15:45"
       }
     ]
@@ -204,10 +204,10 @@ export const oncallData = [
       {
         id: "IT-921501854",
         title: "工区调整服务台权限变更",
-        status: "待处理",
-        sBg: "rgba(255,125,0,.12)",
-        sClr: "#a8510a",
-        sub: "人力资源部",
+        status: "处理中",
+        sBg: "rgba(22,93,255,.12)",
+        sClr: "#1033a3",
+        sub: "工单最新处理进度 (示意)",
         time: "15:40"
       }
     ]
@@ -224,10 +224,10 @@ export const oncallData = [
       {
         id: "IT-921501856",
         title: "空调温度调节",
-        status: "已解决",
-        sBg: "rgba(0,194,146,.12)",
-        sClr: "#007d58",
-        sub: "运维部",
+        status: "处理中",
+        sBg: "rgba(22,93,255,.12)",
+        sClr: "#1033a3",
+        sub: "工单最新处理进度 (示意)",
         time: "15:35"
       }
     ]
