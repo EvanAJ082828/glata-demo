@@ -173,6 +173,7 @@ const UserRow = ({user,isExp,selTk,onToggle,onSelTk, setShowCreateTicketModal}) 
             const ticketCount = user.tickets?.length || 0;
             if (ticketCount === 0) {
               onSelTk({ id: `user-${user.id}`, title: user.name, status: "无待办", sBg: "rgba(22,93,255,.12)", sClr: "#1033a3", src: "服务台", noTickets: true }, user.channel);
+              onToggle();
             } else {
               onToggle();
             }
@@ -237,7 +238,7 @@ const UserRow = ({user,isExp,selTk,onToggle,onSelTk, setShowCreateTicketModal}) 
               style={{ overflow: "hidden", transformOrigin: "top" }}
             >
               <div style={{display:"flex",flexDirection:"column",gap:4,width:"100%",padding:0}}>
-                {user.tickets?.map(tk=>(
+                {(user.tickets?.length || 0) > 0 && user.tickets.map(tk=>(
                   <TkCard key={tk.id} tk={tk}
                     isActive={selTk?.id===tk.id}
                     channel={user.channel}

@@ -14,6 +14,8 @@ import diagnosticImg from "../assets/Diagnostic.png";
 import questionImg from "../assets/Question.png";
 import userinfoImg from "../assets/Userinfo.png";
 import siteinfoImg from "../assets/Siteinfo.png";
+import previousticketsIcon from "../assets/Previousticketsicon.svg";
+import previousticketsImg from "../assets/Previoustickets.png";
 
 const IExpand = () => (
   <img src={iconExpandOutlined} alt="expand icon" style={{ width: 14, height: 14 }} />
@@ -37,6 +39,16 @@ const IChat = () => (
   <img src={iconLinkOutlined} alt="chat icon" style={{ width: 16, height: 16 }} />
 );
 
+const IPrevioustickets = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33333 1.99996H12.6667V6.33329H14V1.99996C14 1.26358 13.403 0.666626 12.6667 0.666626H3.33333C2.59695 0.666626 2 1.26358 2 1.99996V14C2 14.7363 2.59695 15.3333 3.33333 15.3333H6.66667V14H3.33333V1.99996Z" fill="currentColor"/>
+    <path d="M4.66667 4.99996C4.66667 4.63177 4.96514 4.33329 5.33333 4.33329H10.6667C11.0349 4.33329 11.3333 4.63177 11.3333 4.99996C11.3333 5.36815 11.0349 5.66663 10.6667 5.66663H5.33333C4.96514 5.66663 4.66667 5.36815 4.66667 4.99996Z" fill="currentColor"/>
+    <path d="M5.33333 7.33329C4.96514 7.33329 4.66667 7.63177 4.66667 7.99996C4.66667 8.36815 4.96514 8.66663 5.33333 8.66663H7C7.36819 8.66663 7.66667 8.36815 7.66667 7.99996C7.66667 7.63177 7.36819 7.33329 7 7.33329H5.33333Z" fill="currentColor"/>
+    <path d="M12 10.3333C12 9.9651 11.7015 9.66663 11.3333 9.66663C10.9651 9.66663 10.6667 9.9651 10.6667 10.3333V12C10.6667 12.3681 10.9651 12.6666 11.3333 12.6666H13C13.3682 12.6666 13.6667 12.3681 13.6667 12C13.6667 11.6318 13.3682 11.3333 13 11.3333H12V10.3333Z" fill="currentColor"/>
+    <path d="M11.6667 16C14.0599 16 16 14.0599 16 11.6666C16 9.27339 14.0599 7.33329 11.6667 7.33329C9.27343 7.33329 7.33333 9.27339 7.33333 11.6666C7.33333 14.0599 9.27343 16 11.6667 16ZM11.6667 14.6666C10.0098 14.6666 8.66667 13.3235 8.66667 11.6666C8.66667 10.0098 10.0098 8.66663 11.6667 8.66663C13.3235 8.66663 14.6667 10.0098 14.6667 11.6666C14.6667 13.3235 13.3235 14.6666 11.6667 14.6666Z" fill="currentColor"/>
+  </svg>
+);
+
 const VD = () => <div style={{width:1,height:12,background:"var(--f4)",flexShrink:0}}/>;
 
 const Badge = ({label, bg, clr}) => (
@@ -50,11 +62,20 @@ const Badge = ({label, bg, clr}) => (
 );
 
 export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu, setShowCreateTicketModal, addButtonRef, menuRef, role, selUser, oncallData}) => {
-  const [copilotWidth, setCopilotWidth] = useState(480);
+  const [copilotWidth, setCopilotWidth] = useState(520);
   const [isDragging, setIsDragging] = useState(false);
-  const minWidth = 480;
-  const [activeCopilotTab, setActiveCopilotTab] = useState((ticket?.src === "话题群" || ticket?.src === "邮件") || (role === 'tab2' && ticket?.id?.startsWith('IT-')) ? '诊断' : '工单处理');
-  const [activeRightTab, setActiveRightTab] = useState((ticket?.src === "话题群" || ticket?.src === "邮件") || (role === 'tab2' && ticket?.id?.startsWith('IT-')) ? '诊断' : '工单处理');
+  const minWidth = 520;
+  
+  const getInitialTabName = () => {
+    if (!ticket) return '工单处理';
+    if (ticket.noTickets) return '用户信息';
+    if (ticket.src === "话题群" || ticket.src === "邮件") return '诊断';
+    if (role === 'tab2' && ticket.id && ticket.id.startsWith('IT-')) return '诊断';
+    return '工单处理';
+  };
+  
+  const [activeCopilotTab, setActiveCopilotTab] = useState(getInitialTabName());
+  const [activeRightTab, setActiveRightTab] = useState(getInitialTabName());
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -92,7 +113,14 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
 
   useEffect(() => {
     if (ticket) {
-      const newTabName = (ticket?.src === "话题群" || ticket?.src === "邮件") || (role === 'tab2' && ticket?.id?.startsWith('IT-')) ? '诊断' : '工单处理';
+      let newTabName = '工单处理';
+      if (ticket.noTickets) {
+        newTabName = '用户信息';
+      } else if (ticket.src === "话题群" || ticket.src === "邮件") {
+        newTabName = '诊断';
+      } else if (role === 'tab2' && ticket.id && ticket.id.startsWith('IT-')) {
+        newTabName = '诊断';
+      }
       setActiveCopilotTab(newTabName);
       setActiveRightTab(newTabName);
     }
@@ -102,129 +130,6 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
     <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:16}}>
       <img src={imageCommonEmpty} alt="empty state" style={{ width: 88, height: 88, opacity: 1 }} />
       <p className="r14 ct3" style={{margin: 0}}>暂未选择工单</p>
-    </div>
-  );
-
-  if(ticket.noTickets) return (
-    <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:16}}>
-      <img src={imageCommonEmpty} alt="empty state" style={{ width: 88, height: 88, opacity: 1 }} />
-      <p className="r14 ct3" style={{margin: 0}}>该用户暂无待办工单</p>
-      <div style={{position: "relative"}}>
-        <button 
-          ref={addButtonRef}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: 32,
-            padding: "0 12px",
-            borderRadius: 4,
-            background: "#2962FF",
-            border: "none",
-            transition: "background-color 0.2s",
-            cursor: "pointer",
-            gap: 8
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.backgroundColor = "#4F84FF";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.backgroundColor = "#2962FF";
-          }}
-          onClick={() => setShowAddMenu(!showAddMenu)}
-        >
-          <img src={newTicketIcon} alt="新建工单" style={{ width: 14, height: 14, filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(200%) contrast(100%)" }} />
-          <span className="r14" style={{ color: "#FFFFFF" }}>创建工单</span>
-        </button>
-        {showAddMenu && (
-          <div 
-            ref={menuRef}
-            style={{
-            position:"absolute",
-            top:"100%",
-            left:0,
-            width:160,
-            marginTop:4,
-            backgroundColor:"#FFFFFF",
-            borderRadius:8,
-            boxShadow:"0 2px 10px rgba(0,0,0,0.1)",
-            padding:4,
-            zIndex:1000
-          }}>
-            <button 
-              style={{
-                display:"flex",
-                alignItems:"center",
-                width:"100%",
-                textAlign:"left",
-                padding:"8px 12px",
-                borderRadius:6,
-                background:"transparent",
-                border:"none",
-                cursor:"pointer",
-                transition:"background-color 0.2s"
-              }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#F2F3F5"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
-              onClick={() => {
-                    setShowAddMenu(false);
-                    setShowCreateTicketModal(true);
-                  }}
-            >
-              <img src={serviceTicketIcon} alt="服务工单" style={{ width: 16, height: 16, marginRight: 8, filter: "invert(15%) sepia(0%) saturate(10%) hue-rotate(340deg) brightness(90%) contrast(90%)" }} />
-              服务工单
-            </button>
-            <button 
-              style={{
-                display:"flex",
-                alignItems:"center",
-                width:"100%",
-                textAlign:"left",
-                padding:"8px 12px",
-                borderRadius:6,
-                background:"transparent",
-                border:"none",
-                cursor:"pointer",
-                transition:"background-color 0.2s",
-                marginTop:4
-              }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#F2F3F5"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
-              onClick={() => {
-                    setShowAddMenu(false);
-                    setShowCreateTicketModal(true);
-                  }}
-            >
-              <img src={assetReturnIcon} alt="资产退库工单" style={{ width: 16, height: 16, marginRight: 8, filter: "invert(15%) sepia(0%) saturate(10%) hue-rotate(340deg) brightness(90%) contrast(90%)" }} />
-              资产退库工单
-            </button>
-            <button 
-              style={{
-                display:"flex",
-                alignItems:"center",
-                width:"100%",
-                textAlign:"left",
-                padding:"8px 12px",
-                borderRadius:6,
-                background:"transparent",
-                border:"none",
-                cursor:"pointer",
-                transition:"background-color 0.2s",
-                marginTop:4
-              }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#F2F3F5"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
-              onClick={() => {
-                    setShowAddMenu(false);
-                    setShowCreateTicketModal(true);
-                  }}
-            >
-              <img src={assetRepairIcon} alt="资产维修工单" style={{ width: 16, height: 16, marginRight: 8, filter: "invert(15%) sepia(0%) saturate(10%) hue-rotate(340deg) brightness(90%) contrast(90%)" }} />
-              资产维修工单
-            </button>
-          </div>
-        )}
-      </div>
     </div>
   );
 
@@ -266,50 +171,52 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
 
   return (
     <div style={{flex:1,width:0,display:"flex",flexDirection:"column",background:"var(--bg1)"}}>
-      <header style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",
-        padding:"12px 16px",flexShrink:0,borderBottom:"1px solid var(--bd2)",height:76}}>
-        <div style={{display:"flex",flexDirection:"column",gap:6,minWidth:0,flex:1,marginRight:16}}>
-          <div style={{display:"inline-flex",alignItems:"center",gap:12}}>
-            <h1 className="m16 ct1" style={{margin:0}}>
-              {role === 'tab2' && ticket.id && ticket.id.startsWith('IT-') && ticket.src !== "话题群" && ticket.src !== "邮件" ? `From IT Oncall：${userData?.name || 'Unknown'}` : ticket.title}
-            </h1>
-            <Badge label={ticket.status} bg={ticket.sBg} clr={ticket.sClr}/>
-          </div>
-          <div style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}}>
-            <div style={{display:"inline-flex",alignItems:"center",gap:8}}>
-              <span className="r14 clk6">{ticket.id}</span>
-              <button aria-label="展开"><IExpand/></button>
-              <button aria-label="复制" onClick={()=>navigator.clipboard?.writeText(ticket.id)}><ICopy/></button>
+      {!ticket.noTickets && (
+        <header style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",
+          padding:"12px 16px",flexShrink:0,borderBottom:"1px solid var(--bd2)",height:76}}>
+          <div style={{display:"flex",flexDirection:"column",gap:6,minWidth:0,flex:1,marginRight:16}}>
+            <div style={{display:"inline-flex",alignItems:"center",gap:12}}>
+              <h1 className="m16 ct1" style={{margin:0}}>
+                {ticket.noTickets ? ticket.title : ((role === 'tab2' && ticket.id && ticket.id.startsWith('IT-') && ticket.src !== "话题群" && ticket.src !== "邮件") ? `From IT Oncall：${userData?.name || 'Unknown'}` : ticket.title)}
+              </h1>
+              <Badge label={ticket.status} bg={ticket.sBg} clr={ticket.sClr}/>
             </div>
-            {ticket.asset&&<><VD/><span className="r14 ct2">资产编码：{ticket.asset}</span></>}
-            {(ticket.handler || handler)&&<><VD/><span className="r14 ct2">经办人：{ticket.handler || handler}</span></>}
-            <VD/>
-            <span className="r14 ct2">
-              工单来源：{ticket.src === "话题群" || ticket.src === "邮件" ? ticket.src : (role === 'tab2' && ticket.id.startsWith('IT-') ? 'Lark 值班号' : ticket.src)}
-            </span>
+            <div style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}}>
+              <div style={{display:"inline-flex",alignItems:"center",gap:8}}>
+                <span className="r14 clk6">{ticket.id}</span>
+                <button aria-label="展开"><IExpand/></button>
+                <button aria-label="复制" onClick={()=>navigator.clipboard?.writeText(ticket.id)}><ICopy/></button>
+              </div>
+              {ticket.asset&&<><VD/><span className="r14 ct2">资产编码：{ticket.asset}</span></>}
+              {(ticket.handler || handler)&&<><VD/><span className="r14 ct2">经办人：{ticket.handler || handler}</span></>}
+              <VD/>
+              <span className="r14 ct2">
+                工单来源：{ticket.noTickets ? ticket.src : (ticket.src === "话题群" || ticket.src === "邮件" ? ticket.src : (role === 'tab2' && ticket.id.startsWith('IT-') ? 'Lark 值班号' : ticket.src))}
+              </span>
+            </div>
           </div>
-        </div>
-        <div style={{display:"inline-flex",gap:8,alignItems:"center",flexShrink:0}}>
-          <button style={{display:"inline-flex",alignItems:"center",gap:6,height:32,padding:"0 12px",
-            borderRadius:6,border:"1px solid var(--bd2)",background:"var(--bg1)"}}>
-            <span className="r14 ct1">工作流操作</span>
-            <IDown s="var(--t1)"/>
-          </button>
-          <div style={{display:"inline-flex",alignItems:"center",height:32,
-            border:"1px solid var(--bd2)",borderRadius:6,overflow:"hidden",background:"var(--bg1)"}}>
-            <button style={{width:34,display:"flex",alignItems:"center",justifyContent:"center",
-              borderRight:"1px solid var(--bd2)",height:"100%",padding:"0 9px"}} aria-label="分配">
-              <IAssign/>
+          <div style={{display:"inline-flex",gap:8,alignItems:"center",flexShrink:0}}>
+            <button style={{display:"inline-flex",alignItems:"center",gap:6,height:32,padding:"0 12px",
+              borderRadius:6,border:"1px solid var(--bd2)",background:"var(--bg1)"}}>
+              <span className="r14 ct1">工作流操作</span>
+              <IDown s="var(--t1)"/>
             </button>
-            <button style={{width:32,display:"flex",alignItems:"center",justifyContent:"center",
-              height:"100%",padding:"0 9px"}} aria-label="聊天">
-              <IChat/>
-            </button>
+            <div style={{display:"inline-flex",alignItems:"center",height:32,
+              border:"1px solid var(--bd2)",borderRadius:6,overflow:"hidden",background:"var(--bg1)"}}>
+              <button style={{width:34,display:"flex",alignItems:"center",justifyContent:"center",
+                borderRight:"1px solid var(--bd2)",height:"100%",padding:"0 9px"}} aria-label="分配">
+                <IAssign/>
+              </button>
+              <button style={{width:32,display:"flex",alignItems:"center",justifyContent:"center",
+                height:"100%",padding:"0 9px"}} aria-label="聊天">
+                <IChat/>
+              </button>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
+      )}
 
-      {(role === 'tab0') || (role === 'tab1' && ticket?.src !== "话题群" && ticket?.src !== "邮件") ? (
+      {(role === 'tab0') || (role === 'tab1' && (ticket?.noTickets || (ticket?.src !== "话题群" && ticket?.src !== "邮件"))) ? (
         <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
           <div style={{
             display: "flex",
@@ -320,11 +227,18 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
             height: 48
           }}>
             {[
-              {k: (ticket?.src === "话题群" || ticket?.src === "邮件") || (role === 'tab2' && ticket?.id?.startsWith('IT-')) ? '诊断' : '工单处理', icon: 'diagnosis'},
-              {k: '问答', icon: 'qa'},
+              {k: (() => {
+                if (!ticket) return '工单处理';
+                if (ticket.noTickets) return '工单处理';
+                if (ticket.src === "话题群" || ticket.src === "邮件") return '诊断';
+                if (role === 'tab2' && ticket.id && ticket.id.startsWith('IT-')) return '诊断';
+                return '工单处理';
+              })(), icon: 'diagnosis', hideWhenNoTickets: true},
+              {k: '问答', icon: 'qa', hideWhenNoTickets: true},
               {k: '用户信息', icon: 'userInfo', tag: '近期有差评'},
+              {k: '历史工单', icon: 'previoustickets'},
               {k: '职场信息', icon: 'workplace'}
-            ].map(tab => (
+            ].filter(tab => !ticket.noTickets || !tab.hideWhenNoTickets).map(tab => (
               <button
                 key={tab.k}
                 onClick={() => setActiveCopilotTab(tab.k)}
@@ -372,6 +286,9 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
                     <path d="M7.66667 7.33329C7.48257 7.33329 7.33333 7.48253 7.33333 7.66663V8.33329C7.33333 8.51739 7.48257 8.66663 7.66667 8.66663H8.33333C8.51743 8.66663 8.66667 8.51739 8.66667 8.33329V7.66663C8.66667 7.48253 8.51743 7.33329 8.33333 7.33329H7.66667Z" fill="currentColor"/>
                     <path d="M3.33333 15.3333C2.59695 15.3333 2 14.7363 2 14V1.99996C2 1.26358 2.59695 0.666626 3.33333 0.666626H10C10.7364 0.666626 11.3333 1.26358 11.3333 1.99996V3.33329H12.6667C13.403 3.33329 14 3.93025 14 4.66663V14C14 14.7363 13.403 15.3333 12.6667 15.3333H3.33333ZM10 1.99996H3.33333L3.33333 14H5.33333V12C5.33333 11.6318 5.63181 11.3333 6 11.3333H7.33333C7.70152 11.3333 8 11.6318 8 12V14H10V1.99996ZM11.3333 14H12.6667V4.66663H11.3333V14Z" fill="currentColor"/>
                   </svg>
+                )}
+                {tab.icon === 'previoustickets' && (
+                  <IPrevioustickets/>
                 )}
                 <span>{tab.k}</span>
                 {tab.tag && (
@@ -421,6 +338,14 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
                   style={{width: 800, margin: "24px auto"}}
                 />
               </div>
+            ) : activeCopilotTab === '历史工单' ? (
+              <div style={{display: "flex", justifyContent: "center"}}>
+                <img 
+                  src={previousticketsImg} 
+                  alt="历史工单占位" 
+                  style={{width: 800, margin: "24px auto"}}
+                />
+              </div>
             ) : activeCopilotTab === '职场信息' ? (
               <div style={{display: "flex", justifyContent: "center"}}>
                 <img 
@@ -455,9 +380,9 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
             }}></div>
             <div style={{flex:1,overflowY:"auto",padding:"24px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
               <h2 className="m14 ct1" style={{margin:"0 0 16px", textAlign:"center", fontWeight: 400}}>
-                {ticket?.src === "话题群" ? "群聊详情" : 
+                {ticket?.noTickets ? "工单详情" : (ticket?.src === "话题群" ? "群聊详情" : 
                  ticket?.src === "邮件" ? "邮件详情" : 
-                 role === 'tab2' && ticket.id.startsWith('IT-') ? "会话详情" : "工单详情"}
+                 role === 'tab2' && ticket.id.startsWith('IT-') ? "会话详情" : "工单详情")}
               </h2>
             </div>
           </div>
@@ -501,11 +426,18 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
               height: 48
             }}>
               {[
-                {k: (ticket?.src === "话题群" || ticket?.src === "邮件") || (role === 'tab2' && ticket?.id?.startsWith('IT-')) ? '诊断' : '工单处理', icon: 'diagnosis'},
-                {k: '问答', icon: 'qa'},
+                {k: (() => {
+                  if (!ticket) return '工单处理';
+                  if (ticket.noTickets) return '工单处理';
+                  if (ticket.src === "话题群" || ticket.src === "邮件") return '诊断';
+                  if (role === 'tab2' && ticket.id && ticket.id.startsWith('IT-')) return '诊断';
+                  return '工单处理';
+                })(), icon: 'diagnosis', hideWhenNoTickets: true},
+                {k: '问答', icon: 'qa', hideWhenNoTickets: true},
                 {k: '用户信息', icon: 'userInfo', tag: '近期有差评'},
+                {k: '历史工单', icon: 'previoustickets'},
                 {k: '职场信息', icon: 'workplace'}
-              ].map(tab => (
+              ].filter(tab => !ticket.noTickets || !tab.hideWhenNoTickets).map(tab => (
                 <button
                   key={tab.k}
                   onClick={() => setActiveRightTab(tab.k)}
@@ -553,6 +485,9 @@ export const TaskDetailAndCopilotSection = ({ticket, showAddMenu, setShowAddMenu
                       <path d="M7.66667 7.33329C7.48257 7.33329 7.33333 7.48253 7.33333 7.66663V8.33329C7.33333 8.51739 7.48257 8.66663 7.66667 8.66663H8.33333C8.51743 8.66663 8.66667 8.51739 8.66667 8.33329V7.66663C8.66667 7.48253 8.51743 7.33329 8.33333 7.33329H7.66667Z" fill="currentColor"/>
                       <path d="M3.33333 15.3333C2.59695 15.3333 2 14.7363 2 14V1.99996C2 1.26358 2.59695 0.666626 3.33333 0.666626H10C10.7364 0.666626 11.3333 1.26358 11.3333 1.99996V3.33329H12.6667C13.403 3.33329 14 3.93025 14 4.66663V14C14 14.7363 13.403 15.3333 12.6667 15.3333H3.33333ZM10 1.99996H3.33333L3.33333 14H5.33333V12C5.33333 11.6318 5.63181 11.3333 6 11.3333H7.33333C7.70152 11.3333 8 11.6318 8 12V14H10V1.99996ZM11.3333 14H12.6667V4.66663H11.3333V14Z" fill="currentColor"/>
                     </svg>
+                  )}
+                  {tab.icon === 'previoustickets' && (
+                    <IPrevioustickets/>
                   )}
                   <span>{tab.k}</span>
                   {tab.tag && (
